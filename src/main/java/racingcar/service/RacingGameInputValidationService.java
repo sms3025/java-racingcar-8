@@ -2,15 +2,18 @@ package racingcar.service;
 
 import java.util.List;
 import java.util.regex.Pattern;
+import racingcar.error.ErrorCode;
 
 public class RacingGameInputValidationService {
+    private static final String carNamedelimiter = ",";
     private static final Integer MAX_LENGTH_OF_CAR_NAME = 5;
     private static final Pattern CAR_NAME_REGEX = Pattern.compile("^[a-zA-Z0-9가-힣]+$");
 
     public RacingGameInputValidationService() {
     }
 
-    public void validateCarNames(List<String> carNames) {
+    public List<String> splitStringAndValidateCarNames(String carNameAsString) {
+        List<String> carNames = getSplitCarNames(carNameAsString);
         carNames.forEach(carName -> {
             validateNullOrBlank(carName);
             validateCharacterSet(carName);
@@ -18,6 +21,7 @@ public class RacingGameInputValidationService {
         });
 
         validateDuplicateCarName(carNames);
+        return carNames;
     }
 
     public Integer convertStringToIntegerAndValidateRound(String racingRoundAsString) {
@@ -26,9 +30,45 @@ public class RacingGameInputValidationService {
         return racingRound;
     }
 
+    private List<String> getSplitCarNames(String carNameAsString) {
+        return List.of(carNameAsString.replace(" ", "").split(carNamedelimiter, -1));
+    }
+
+    private Integer convertStringToInteger(String racingRoundAsString) {
+        try {
+            return Integer.parseInt(racingRoundAsString);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(ErrorCode.ILLEGAL_RACING_ROUND.getErrorMessage());
+        }
+    }
+
     private void validateZeroOrNegativeNumber(Integer racingRound) {
         if(isZeroOrNegativeNumber(racingRound)) {
-            throw new IllegalArgumentException("최소 1라운드 이상의 경기 수가 필요합니다.");
+            throw new IllegalArgumentException(ErrorCode.NOT_POSITIVE_RACING_ROUND.getErrorMessage());
+        }
+    }
+
+    private void validateCharacterSet(String carName) {
+        if(isInValidCarName(carName)) {
+            throw new IllegalArgumentException(ErrorCode.FORBIDDEN_CAR_NAME.getErrorMessage());
+        }
+    }
+
+    private void validateDuplicateCarName(List<String> carNames) {
+        if(isDuplicatedCarName(carNames)) {
+            throw new IllegalArgumentException(ErrorCode.DUPLICATE_CAR_NAME.getErrorMessage());
+        }
+    }
+
+    private void validateNullOrBlank(String carName) {
+        if(isNullOrBlank(carName)) {
+            throw new IllegalArgumentException(ErrorCode.ILLEGAL_CAR_NAME.getErrorMessage());
+        }
+    }
+
+    private void validateMaximumLength(String carName) {
+        if(isExceededMaximumLength(carName)) {
+            throw new IllegalArgumentException(ErrorCode.OVER_MAXIMUM_LENGTH_CAR_NAME.getErrorMessage());
         }
     }
 
@@ -36,40 +76,8 @@ public class RacingGameInputValidationService {
         return racingRound <= 0;
     }
 
-    private Integer convertStringToInteger(String racingRoundAsString) {
-        try {
-            return Integer.parseInt(racingRoundAsString);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("올바르지 않은 경기 횟수 입니다.");
-        }
-    }
-
-    private void validateCharacterSet(String carName) {
-        if(isInValidCarName(carName)) {
-            throw new IllegalArgumentException("자동차 이름에는 한글, 영문, 숫자만 사용할 수 있습니다.");
-        }
-    }
-
     private boolean isInValidCarName(String carName) {
         return !CAR_NAME_REGEX.matcher(carName).matches();
-    }
-
-    private void validateDuplicateCarName(List<String> carNames) {
-        if(isDuplicatedCarName(carNames)) {
-            throw new IllegalArgumentException("중복된 자동차 이름이 있습니다.");
-        }
-    }
-
-    private void validateMaximumLength(String carName) {
-        if(isExceededMaximumLength(carName)) {
-            throw new IllegalArgumentException("자동차 이름은 " + MAX_LENGTH_OF_CAR_NAME + "자 보다 클 수 없습니다.");
-        }
-    }
-
-    private void validateNullOrBlank(String carName) {
-        if(isNullOrBlank(carName)) {
-            throw new IllegalArgumentException("올바르지 않은 이름입니다.");
-        }
     }
 
     private boolean isDuplicatedCarName(List<String> carNames) {

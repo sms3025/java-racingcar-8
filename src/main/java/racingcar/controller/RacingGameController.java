@@ -1,7 +1,6 @@
 package racingcar.controller;
 
 import java.util.List;
-import java.util.regex.Pattern;
 import racingcar.service.RacingGameInputValidationService;
 import racingcar.service.RacingGameService;
 import racingcar.view.RacingCarInputView;
@@ -13,8 +12,6 @@ public class RacingGameController {
     private final RacingGameService racingGameService;
     private final RacingGameInputValidationService racingGameInputValidationService;
 
-    private static final String carNamedelimiter = ",";
-
     public RacingGameController(RacingCarInputView racingCarInputView, RacingCarOutputView racingCarOutputView,
         RacingGameService racingGameService, RacingGameInputValidationService racingGameInputValidationService) {
         this.racingCarInputView = racingCarInputView;
@@ -24,8 +21,8 @@ public class RacingGameController {
     }
 
     public void racingGameStart() {
-        List<String> carNames = getCarNames();
-        racingGameInputValidationService.validateCarNames(carNames);
+        String carNameAsString = getCarNames();
+        List<String> carNames = racingGameInputValidationService.splitStringAndValidateCarNames(carNameAsString);
 
         String racingRoundAsString = getRacingRound();
         Integer racingRound = racingGameInputValidationService.convertStringToIntegerAndValidateRound(racingRoundAsString);
@@ -36,9 +33,8 @@ public class RacingGameController {
         return racingCarInputView.inputRacingRound();
     }
 
-    private List<String> getCarNames() {
-        String carNameAsString = racingCarInputView.inputCarName();
-        return List.of(carNameAsString.replace(" ", "").split(carNamedelimiter, -1));
+    private String getCarNames() {
+        return racingCarInputView.inputCarName();
     }
 
 }
