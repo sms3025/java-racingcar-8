@@ -31,7 +31,9 @@ public class RacingGameInputValidationService {
     }
 
     private List<String> getSplitCarNames(String carNameAsString) {
+        validateNullOrBlank(carNameAsString);
         return List.of(carNameAsString.replace(" ", "").split(carNamedelimiter, -1));
+
     }
 
     private Integer convertStringToInteger(String racingRoundAsString) {
