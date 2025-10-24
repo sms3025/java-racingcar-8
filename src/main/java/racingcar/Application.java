@@ -1,6 +1,7 @@
 package racingcar;
 
 import racingcar.controller.RacingGameController;
+import racingcar.service.RacingGameInputValidationService;
 import racingcar.service.RacingGameService;
 import racingcar.view.RacingCarInputView;
 import racingcar.view.RacingCarOutputView;
@@ -15,6 +16,7 @@ public class Application {
         RacingCarInputView racingCarInputView = new RacingCarInputView();
         RacingCarOutputView racingCarOutputView = new RacingCarOutputView();
         RacingGameService racingGameService = new RacingGameService();
-        return new RacingGameController(racingCarInputView,racingCarOutputView,racingGameService);
+        RacingGameInputValidationService racingGameInputValidationService = new RacingGameInputValidationService();
+        return new RacingGameController(racingCarInputView,racingCarOutputView,racingGameService,racingGameInputValidationService);
     }
 }
