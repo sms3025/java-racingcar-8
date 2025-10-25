@@ -77,7 +77,7 @@ public class RacingGameController {
     }
 
     private boolean isPlayableRound(Integer currentRacingRound,Integer totalRacingRound) {
-        return currentRacingRound.equals(totalRacingRound);
+        return currentRacingRound < totalRacingRound;
     }
 
     private Integer increaseCurrentRacingRound(Integer currentRacingRound) {
