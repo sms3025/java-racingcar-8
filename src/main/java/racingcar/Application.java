@@ -9,7 +9,8 @@ import racingcar.view.RacingCarOutputView;
 public class Application {
     public static void main(String[] args) {
         RacingGameController racingGameController = getRacingGameController();
-        racingGameController.racingGameStart();
+        RacingGame racingGame = new RacingGame(racingGameController);
+        racingGame.startGame();
     }
 
     private static RacingGameController getRacingGameController() {

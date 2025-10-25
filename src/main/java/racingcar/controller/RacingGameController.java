@@ -2,6 +2,8 @@ package racingcar.controller;
 
 import java.util.List;
 import racingcar.domain.Car;
+import racingcar.dto.RacingGameSetupDto;
+import racingcar.dto.RacingGameStartResponseDto;
 import racingcar.service.RacingGameInputValidationService;
 import racingcar.service.RacingGameService;
 import racingcar.view.RacingCarInputView;
@@ -21,7 +23,7 @@ public class RacingGameController {
         this.racingGameInputValidationService = racingGameInputValidationService;
     }
 
-    public void racingGameStart() {
+    public RacingGameSetupDto racingGameSetup() {
         String carNameAsString = getCarNames();
         List<String> carNames = racingGameInputValidationService.splitStringAndValidateCarNames(carNameAsString);
 
@@ -30,20 +32,53 @@ public class RacingGameController {
 
         List<Car> cars = carNames.stream().map(Car::new).toList();
 
-        while(isPlayableRound(racingRound)) {
+        return getRacingGameSetupDto(cars, racingRound);
+    }
+
+    public RacingGameStartResponseDto racingGameStart(RacingGameSetupDto racingGameSetupDto) {
+        List<Car> cars = racingGameSetupDto.getCars();
+        Integer totalRacingRound = racingGameSetupDto.getRacingRound();
+        Integer currentRacingRound = 0;
+
+        do {
             cars = racingGameService.raceOneRound(cars);
-            racingRound = decreaseRacingRound(racingRound);
-        }
+            currentRacingRound = increaseCurrentRacingRound(currentRacingRound);
+        } while(isPlayableRound(currentRacingRound, totalRacingRound));
+
         List<String> finalWinners = racingGameService.getFinalWinners(cars);
+
+        return getRacingGameStartResponseDto(currentRacingRound,
+            finalWinners, cars);
     }
 
-    private boolean isPlayableRound(Integer racingRound) {
-        return racingRound > 0;
+    private RacingGameStartResponseDto getRacingGameStartResponseDto(Integer currentRacingRound,
+        List<String> finalWinners, List<Car> cars) {
+        RacingGameStartResponseDto racingGameStartResponseDto = new RacingGameStartResponseDto();
+        racingGameStartResponseDto.setRacingRound(currentRacingRound);
+        racingGameStartResponseDto.setWinners(finalWinners);
+        racingGameStartResponseDto.setCars(cars);
+        return racingGameStartResponseDto;
     }
 
-    private Integer decreaseRacingRound(Integer racingRound) {
-        racingRound--;
-        return racingRound;
+    private RacingGameSetupDto getRacingGameSetupDto(List<Car> cars, Integer racingRound) {
+        RacingGameSetupDto racingGameSetupDto = new RacingGameSetupDto();
+        racingGameSetupDto.setCars(cars);
+        racingGameSetupDto.setRacingRound(racingRound);
+        return getRacingGameSetupResponseDto(racingGameSetupDto);
+    }
+
+    private RacingGameSetupDto getRacingGameSetupResponseDto(
+        RacingGameSetupDto racingGameSetupResponseDto) {
+        return racingGameSetupResponseDto;
+    }
+
+    private boolean isPlayableRound(Integer currentRacingRound,Integer totalRacingRound) {
+        return currentRacingRound.equals(totalRacingRound);
+    }
+
+    private Integer increaseCurrentRacingRound(Integer currentRacingRound) {
+        currentRacingRound++;
+        return currentRacingRound;
     }
 
     private String getRacingRound() {
