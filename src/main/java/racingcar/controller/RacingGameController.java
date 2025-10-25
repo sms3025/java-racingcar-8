@@ -1,6 +1,7 @@
 package racingcar.controller;
 
 import java.util.List;
+import racingcar.domain.Car;
 import racingcar.service.RacingGameInputValidationService;
 import racingcar.service.RacingGameService;
 import racingcar.view.RacingCarInputView;
@@ -26,7 +27,23 @@ public class RacingGameController {
 
         String racingRoundAsString = getRacingRound();
         Integer racingRound = racingGameInputValidationService.convertStringToIntegerAndValidateRound(racingRoundAsString);
-        
+
+        List<Car> cars = carNames.stream().map(Car::new).toList();
+
+        while(isPlayableRound(racingRound)) {
+            cars = racingGameService.raceOneRound(cars);
+            racingRound = decreaseRacingRound(racingRound);
+        }
+        List<String> finalWinners = racingGameService.getFinalWinners(cars);
+    }
+
+    private boolean isPlayableRound(Integer racingRound) {
+        return racingRound > 0;
+    }
+
+    private Integer decreaseRacingRound(Integer racingRound) {
+        racingRound--;
+        return racingRound;
     }
 
     private String getRacingRound() {

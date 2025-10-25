@@ -6,7 +6,9 @@ public enum ErrorCode {
     OVER_MAXIMUM_LENGTH_CAR_NAME("자동차 이름은 5자 보다 클 수 없습니다."),
     DUPLICATE_CAR_NAME("중복된 자동차 이름이 있습니다."),
     ILLEGAL_RACING_ROUND("올바르지 않은 경기 횟수 입니다."),
-    NOT_POSITIVE_RACING_ROUND("최소 1라운드 이상의 경기 수가 필요합니다.");
+    NOT_POSITIVE_RACING_ROUND("최소 1라운드 이상의 경기 수가 필요합니다."),
+    EMPTY_CAR_LIST("자동차 목록이 비어있습니다."),
+    INTEGER_OVERFLOW("integer overflow가 발생했습니다.");
 
     private final String errorMessage;
 
