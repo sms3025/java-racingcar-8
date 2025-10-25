@@ -14,6 +14,7 @@ public class RacingGameController {
     private final RacingCarOutputView racingCarOutputView;
     private final RacingGameService racingGameService;
     private final RacingGameInputValidationService racingGameInputValidationService;
+    private final String PROGRESS_RESULT = "실행 결과";
 
     public RacingGameController(RacingCarInputView racingCarInputView, RacingCarOutputView racingCarOutputView,
         RacingGameService racingGameService, RacingGameInputValidationService racingGameInputValidationService) {
@@ -40,12 +41,15 @@ public class RacingGameController {
         Integer totalRacingRound = racingGameSetupDto.getRacingRound();
         Integer currentRacingRound = 0;
 
+        racingCarOutputView.printMessage(PROGRESS_RESULT);
         do {
             cars = racingGameService.raceOneRound(cars);
             currentRacingRound = increaseCurrentRacingRound(currentRacingRound);
+            racingCarOutputView.printRacingProgress(cars);
         } while(isPlayableRound(currentRacingRound, totalRacingRound));
 
         List<String> finalWinners = racingGameService.getFinalWinners(cars);
+        racingCarOutputView.printFinalWinners(finalWinners);
 
         return getRacingGameStartResponseDto(currentRacingRound,
             finalWinners, cars);
