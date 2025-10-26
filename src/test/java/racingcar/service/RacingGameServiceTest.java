@@ -1,5 +1,6 @@
 package racingcar.service;
 
+import static camp.nextstep.edu.missionutils.test.Assertions.assertRandomNumberInRangeTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
@@ -10,6 +11,8 @@ import racingcar.domain.Car;
 
 class RacingGameServiceTest {
     private RacingGameService racingGameService;
+    private final Integer STOP = 3;
+    private final Integer MOVING_FORWARD = 4;
 
     @BeforeEach
     void beforeEach() {
@@ -54,5 +57,42 @@ class RacingGameServiceTest {
         assertThat(winners).containsExactlyInAnyOrderElementsOf(expectedWinners);
     }
 
+    @Test
+    @DisplayName("첫번째 차만 전진하는 테스트 작성")
+    void firstCarMoveTest() {
+        //given
+        List<Car> cars = List.of(new Car("a1"), new Car("a2"), new Car("a3"));
+        //when & then
+        assertRandomNumberInRangeTest(
+                () -> {
+                    //when
+                    List<Car> resultCars = racingGameService.raceOneRound(cars);
+
+                    assertThat(resultCars.get(0).getPosition()).isEqualTo(1);
+                    assertThat(resultCars.get(1).getPosition()).isEqualTo(0);
+                    assertThat(resultCars.get(2).getPosition()).isEqualTo(0);
+                },
+                MOVING_FORWARD, STOP, STOP
+        );
+    }
+
+    @Test
+    @DisplayName("두 대의 차만 전진하는 테스트 작성")
+    void TwoCarMoveTest() {
+        //given
+        List<Car> cars = List.of(new Car("a1"), new Car("a2"), new Car("a3"));
+        //when & then
+        assertRandomNumberInRangeTest(
+                () -> {
+                    //when
+                    List<Car> resultCars = racingGameService.raceOneRound(cars);
+
+                    assertThat(resultCars.get(0).getPosition()).isEqualTo(1);
+                    assertThat(resultCars.get(1).getPosition()).isEqualTo(1);
+                    assertThat(resultCars.get(2).getPosition()).isEqualTo(0);
+                },
+                MOVING_FORWARD, MOVING_FORWARD, STOP
+        );
+    }
 
 }
