@@ -5,7 +5,7 @@ import racingcar.error.ErrorCode;
 public class Car implements Comparable<Car> {
     private String carName;
     private Integer position = 0;
-    private final Integer STANDARD_NUMBER = 4;
+    private static final Integer STANDARD_NUMBER = 4;
 
     public Car(String carName) {
         this.carName = carName;

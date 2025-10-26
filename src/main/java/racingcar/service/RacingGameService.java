@@ -6,9 +6,9 @@ import racingcar.domain.Car;
 import racingcar.error.ErrorCode;
 
 public class RacingGameService {
-    private final Integer DISTANCE = 1;
-    private final Integer START_CONDITIONAL_NUMBER = 0;
-    private final Integer END_CONDITIONAL_NUMBER = 9;
+    private static final Integer DISTANCE = 1;
+    private static final Integer START_CONDITIONAL_NUMBER = 0;
+    private static final Integer END_CONDITIONAL_NUMBER = 9;
 
     public RacingGameService() {
     }
