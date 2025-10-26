@@ -17,7 +17,8 @@ public class RacingGameController {
     private final String PROGRESS_RESULT = "실행 결과";
 
     public RacingGameController(RacingCarInputView racingCarInputView, RacingCarOutputView racingCarOutputView,
-        RacingGameService racingGameService, RacingGameInputValidationService racingGameInputValidationService) {
+                                RacingGameService racingGameService,
+                                RacingGameInputValidationService racingGameInputValidationService) {
         this.racingCarInputView = racingCarInputView;
         this.racingCarOutputView = racingCarOutputView;
         this.racingGameService = racingGameService;
@@ -29,7 +30,8 @@ public class RacingGameController {
         List<String> carNames = racingGameInputValidationService.splitStringAndValidateCarNames(carNameAsString);
 
         String racingRoundAsString = getRacingRound();
-        Integer racingRound = racingGameInputValidationService.convertStringToIntegerAndValidateRound(racingRoundAsString);
+        Integer racingRound = racingGameInputValidationService.convertStringToIntegerAndValidateRound(
+                racingRoundAsString);
 
         List<Car> cars = carNames.stream().map(Car::new).toList();
 
@@ -46,17 +48,17 @@ public class RacingGameController {
             cars = racingGameService.raceOneRound(cars);
             currentRacingRound = increaseCurrentRacingRound(currentRacingRound);
             racingCarOutputView.printRacingProgress(cars);
-        } while(isPlayableRound(currentRacingRound, totalRacingRound));
+        } while (isPlayableRound(currentRacingRound, totalRacingRound));
 
         List<String> finalWinners = racingGameService.getFinalWinners(cars);
         racingCarOutputView.printFinalWinners(finalWinners);
 
         return getRacingGameStartResponseDto(currentRacingRound,
-            finalWinners, cars);
+                finalWinners, cars);
     }
 
     private RacingGameStartResponseDto getRacingGameStartResponseDto(Integer currentRacingRound,
-        List<String> finalWinners, List<Car> cars) {
+                                                                     List<String> finalWinners, List<Car> cars) {
         RacingGameStartResponseDto racingGameStartResponseDto = new RacingGameStartResponseDto();
         racingGameStartResponseDto.setRacingRound(currentRacingRound);
         racingGameStartResponseDto.setWinners(finalWinners);
@@ -72,11 +74,11 @@ public class RacingGameController {
     }
 
     private RacingGameSetupDto getRacingGameSetupResponseDto(
-        RacingGameSetupDto racingGameSetupResponseDto) {
+            RacingGameSetupDto racingGameSetupResponseDto) {
         return racingGameSetupResponseDto;
     }
 
-    private boolean isPlayableRound(Integer currentRacingRound,Integer totalRacingRound) {
+    private boolean isPlayableRound(Integer currentRacingRound, Integer totalRacingRound) {
         return currentRacingRound < totalRacingRound;
     }
 

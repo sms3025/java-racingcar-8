@@ -1,6 +1,7 @@
 package racingcar.service;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,8 +39,8 @@ class RacingGameInputValidationServiceTest {
     void nullOrBlankOrIllegalCarNameTest(String carNames) {
         //when & then
         assertThatThrownBy(() -> validationService.splitStringAndValidateCarNames(carNames))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage(ErrorCode.ILLEGAL_CAR_NAME.getErrorMessage());
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ErrorCode.ILLEGAL_CAR_NAME.getErrorMessage());
     }
 
     @ParameterizedTest
@@ -47,7 +48,7 @@ class RacingGameInputValidationServiceTest {
     @DisplayName("차량 이름이 한글, 영어, 숫자가 아닌 경우 예외 발생 테스트")
     void invalidCharsetTest(String carNames) {
         //when & then
-            assertThatThrownBy(() -> validationService.splitStringAndValidateCarNames(carNames))
+        assertThatThrownBy(() -> validationService.splitStringAndValidateCarNames(carNames))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ErrorCode.FORBIDDEN_CAR_NAME.getErrorMessage());
 
@@ -60,8 +61,8 @@ class RacingGameInputValidationServiceTest {
         String carNames = "abcdef,kummmmmmm,waidjaowdijwa";
         //when & then
         assertThatThrownBy(() -> validationService.splitStringAndValidateCarNames(carNames))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage(ErrorCode.OVER_MAXIMUM_LENGTH_CAR_NAME.getErrorMessage());
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ErrorCode.OVER_MAXIMUM_LENGTH_CAR_NAME.getErrorMessage());
     }
 
     @Test
@@ -71,8 +72,8 @@ class RacingGameInputValidationServiceTest {
         String carNames = "pobi,jun,pobi";
         //when & then
         assertThatThrownBy(() -> validationService.splitStringAndValidateCarNames(carNames))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage(ErrorCode.DUPLICATE_CAR_NAME.getErrorMessage());
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ErrorCode.DUPLICATE_CAR_NAME.getErrorMessage());
     }
 
     @ParameterizedTest
@@ -91,8 +92,8 @@ class RacingGameInputValidationServiceTest {
     void zeroOrNegativeRacingRoundTest(String racingRoundAsString) {
         //when & then
         assertThatThrownBy(() -> validationService.convertStringToIntegerAndValidateRound(racingRoundAsString))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage(ErrorCode.NOT_POSITIVE_RACING_ROUND.getErrorMessage());
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ErrorCode.NOT_POSITIVE_RACING_ROUND.getErrorMessage());
     }
 
     @ParameterizedTest
@@ -102,8 +103,8 @@ class RacingGameInputValidationServiceTest {
     void notIntegerRacingRoundTest(String racingRoundAsString) {
         //when & then
         assertThatThrownBy(() -> validationService.convertStringToIntegerAndValidateRound(racingRoundAsString))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage(ErrorCode.ILLEGAL_RACING_ROUND.getErrorMessage());
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ErrorCode.ILLEGAL_RACING_ROUND.getErrorMessage());
     }
 
     @ParameterizedTest
@@ -112,8 +113,8 @@ class RacingGameInputValidationServiceTest {
     void overflowRacingRoundTest(String racingRoundAsString) {
         //when & then
         assertThatThrownBy(() -> validationService.convertStringToIntegerAndValidateRound(racingRoundAsString))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage(ErrorCode.ILLEGAL_RACING_ROUND.getErrorMessage());
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ErrorCode.ILLEGAL_RACING_ROUND.getErrorMessage());
     }
 
 }

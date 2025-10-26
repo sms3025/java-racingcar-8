@@ -1,6 +1,6 @@
 package racingcar.view;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -30,7 +30,7 @@ class RacingCarOutputViewTest {
 
     @Test
     @DisplayName("받은 메시지 그대로 출력하는 테스트")
-    void printMessageTest(){
+    void printMessageTest() {
         //given
         String message = "실행 결과";
         //when
@@ -45,13 +45,13 @@ class RacingCarOutputViewTest {
         //given
         List<Car> cars = List.of(new Car("a1"), new Car("a2"), new Car("a3"));
         final Integer MOVABLE = 9;
-        for(int i=1; i<=cars.size(); i++){
-            cars.get(i-1).move(i,MOVABLE);
+        for (int i = 1; i <= cars.size(); i++) {
+            cars.get(i - 1).move(i, MOVABLE);
         }
         //when
         racingCarOutputView.printRacingProgress(cars);
         //then
-        List<String> expectedPrints = List.of("a1 : -", "a2 : --" , "a3 : ---");
+        List<String> expectedPrints = List.of("a1 : -", "a2 : --", "a3 : ---");
         assertThat(outputStream.toString()).contains(expectedPrints);
     }
 
@@ -59,7 +59,7 @@ class RacingCarOutputViewTest {
     @DisplayName("최종 우승자 출력 하는 테스트")
     void printFinalWinnersTest() {
         //given
-        List<String> winners = List.of("a1","a2");
+        List<String> winners = List.of("a1", "a2");
         //when
         racingCarOutputView.printFinalWinners(winners);
         //then

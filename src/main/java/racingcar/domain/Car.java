@@ -20,7 +20,7 @@ public class Car implements Comparable<Car> {
     }
 
     public void move(Integer distance, Integer randomNumber) {
-        if(isGreaterOrEqualsStandardNumber(randomNumber)) {
+        if (isGreaterOrEqualsStandardNumber(randomNumber)) {
             position = validateNextPositionAndReturn(distance);
         }
     }

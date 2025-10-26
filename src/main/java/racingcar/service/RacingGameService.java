@@ -22,16 +22,16 @@ public class RacingGameService {
         Integer maxPosition = getMaxPosition(cars);
 
         return cars.stream()
-            .filter(car -> car.getPosition().equals(maxPosition))
-            .map(Car::getCarName)
-            .toList();
+                .filter(car -> car.getPosition().equals(maxPosition))
+                .map(Car::getCarName)
+                .toList();
     }
 
     private Integer getMaxPosition(List<Car> cars) {
         return cars.stream()
-            .max(Car::compareTo)
-            .map(Car::getPosition)
-            .orElseThrow(() -> new IllegalStateException(ErrorCode.EMPTY_CAR_LIST.getErrorMessage()));
+                .max(Car::compareTo)
+                .map(Car::getPosition)
+                .orElseThrow(() -> new IllegalStateException(ErrorCode.EMPTY_CAR_LIST.getErrorMessage()));
     }
 
     private int getRandomNumber() {

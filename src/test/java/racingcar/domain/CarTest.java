@@ -1,6 +1,7 @@
 package racingcar.domain;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -59,7 +60,7 @@ class CarTest {
         car.move(Integer.MAX_VALUE, randomNumber);
         // when & then
         assertThatThrownBy(() -> car.move(1, randomNumber))
-            .isInstanceOf(ArithmeticException.class)
-            .hasMessage(ErrorCode.INTEGER_OVERFLOW.getErrorMessage());
+                .isInstanceOf(ArithmeticException.class)
+                .hasMessage(ErrorCode.INTEGER_OVERFLOW.getErrorMessage());
     }
 }

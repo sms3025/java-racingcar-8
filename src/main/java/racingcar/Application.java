@@ -18,6 +18,7 @@ public class Application {
         RacingCarOutputView racingCarOutputView = new RacingCarOutputView();
         RacingGameService racingGameService = new RacingGameService();
         RacingGameInputValidationService racingGameInputValidationService = new RacingGameInputValidationService();
-        return new RacingGameController(racingCarInputView,racingCarOutputView,racingGameService,racingGameInputValidationService);
+        return new RacingGameController(racingCarInputView, racingCarOutputView, racingGameService,
+                racingGameInputValidationService);
     }
 }

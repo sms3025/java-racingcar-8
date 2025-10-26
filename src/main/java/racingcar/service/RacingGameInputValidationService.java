@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 import racingcar.error.ErrorCode;
 
 public class RacingGameInputValidationService {
-    private static final String carNamedelimiter = ",";
+    private static final String CAR_NAME_DELIMITER = ",";
     private static final Integer MAX_LENGTH_OF_CAR_NAME = 5;
     private static final Pattern CAR_NAME_REGEX = Pattern.compile("^[a-zA-Z0-9가-힣]+$");
 
@@ -32,7 +32,7 @@ public class RacingGameInputValidationService {
 
     private List<String> getSplitCarNames(String carNameAsString) {
         validateNullOrBlank(carNameAsString);
-        return List.of(carNameAsString.replace(" ", "").split(carNamedelimiter, -1));
+        return List.of(carNameAsString.replace(" ", "").split(CAR_NAME_DELIMITER, -1));
 
     }
 
@@ -45,31 +45,31 @@ public class RacingGameInputValidationService {
     }
 
     private void validateZeroOrNegativeNumber(Integer racingRound) {
-        if(isZeroOrNegativeNumber(racingRound)) {
+        if (isZeroOrNegativeNumber(racingRound)) {
             throw new IllegalArgumentException(ErrorCode.NOT_POSITIVE_RACING_ROUND.getErrorMessage());
         }
     }
 
     private void validateCharacterSet(String carName) {
-        if(isInValidCarName(carName)) {
+        if (isInValidCarName(carName)) {
             throw new IllegalArgumentException(ErrorCode.FORBIDDEN_CAR_NAME.getErrorMessage());
         }
     }
 
     private void validateDuplicateCarName(List<String> carNames) {
-        if(isDuplicatedCarName(carNames)) {
+        if (isDuplicatedCarName(carNames)) {
             throw new IllegalArgumentException(ErrorCode.DUPLICATE_CAR_NAME.getErrorMessage());
         }
     }
 
     private void validateNullOrBlank(String carName) {
-        if(isNullOrBlank(carName)) {
+        if (isNullOrBlank(carName)) {
             throw new IllegalArgumentException(ErrorCode.ILLEGAL_CAR_NAME.getErrorMessage());
         }
     }
 
     private void validateMaximumLength(String carName) {
-        if(isExceededMaximumLength(carName)) {
+        if (isExceededMaximumLength(carName)) {
             throw new IllegalArgumentException(ErrorCode.OVER_MAXIMUM_LENGTH_CAR_NAME.getErrorMessage());
         }
     }

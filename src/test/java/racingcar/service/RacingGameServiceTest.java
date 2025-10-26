@@ -1,6 +1,6 @@
 package racingcar.service;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,8 +24,8 @@ class RacingGameServiceTest {
         String expectedWinners = "a3";
         Integer movedRandomNumber = 9;
         Integer distance = 1;
-        for (int i=0; i<cars.size(); i++) {
-            for (int j=0; j<=i; j++) {
+        for (int i = 0; i < cars.size(); i++) {
+            for (int j = 0; j <= i; j++) {
                 cars.get(i).move(distance, movedRandomNumber);
             }
         }
@@ -43,8 +43,8 @@ class RacingGameServiceTest {
         List<String> expectedWinners = List.of("a1", "a2");
         Integer movedRandomNumber = 9;
         Integer distance = 1;
-        for (int i=0; i<cars.size()-1; i++) {
-            for (int j=0; j<=cars.size()-1; j++) {
+        for (int i = 0; i < cars.size() - 1; i++) {
+            for (int j = 0; j <= cars.size() - 1; j++) {
                 cars.get(i).move(distance, movedRandomNumber);
             }
         }
