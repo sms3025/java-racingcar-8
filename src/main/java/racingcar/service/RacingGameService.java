@@ -31,7 +31,7 @@ public class RacingGameService {
         return cars.stream()
                 .max(Car::compareTo)
                 .map(Car::getPosition)
-                .orElseThrow(() -> new IllegalStateException(ErrorCode.EMPTY_CAR_LIST.getErrorMessage()));
+                .orElseThrow(() -> new IllegalArgumentException(ErrorCode.EMPTY_CAR_LIST.getErrorMessage()));
     }
 
     private int getRandomNumber() {
